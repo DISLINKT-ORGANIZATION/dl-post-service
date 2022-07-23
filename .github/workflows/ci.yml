@@ -16,7 +16,7 @@ jobs:
       - run: git checkout HEAD^
 
       - name: Print github ref
-        run: echo ${{ github.head_ref }}
+        run: echo "Branch >> ${{ github.head_ref }}"
 
       - name: Setup Java
         uses: actions/setup-java@v1
