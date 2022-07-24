@@ -106,6 +106,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/dl-post-service:${{ steps.versioning.outputs.version }}
 
       - name: Upload image
+        if: ${{ github.event_name == 'push' }}
         uses: ishworkh/docker-image-artifact-upload@v1
         with:
           image: ${{ secrets.DOCKER_USERNAME }}/dl-post-service:${{ steps.versioning.outputs.version }}
