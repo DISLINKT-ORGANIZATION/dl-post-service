@@ -5,6 +5,14 @@ on:
     branches: [develop, main]
   push:
     branches: [develop]
+  workflow_call:
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+      SONAR_TOKEN:
+        required: true
 
 jobs:
   ci:
