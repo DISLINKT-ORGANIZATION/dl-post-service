@@ -28,8 +28,8 @@ jobs:
         with:
           java-version: '11'
 
-      - name: Commit Lint
-        uses: wagoid/commitlint-github-action@v4
+#      - name: Commit Lint
+#        uses: wagoid/commitlint-github-action@v4
 
       - name: Cache Maven Packages
         uses: actions/cache@v1
@@ -38,7 +38,6 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # TODO: commit lint
       # TODO: infrastructure setup for integration testing
 
       - name: Run Tests
