@@ -23,8 +23,8 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_PASSWORD: root
           POSTGRES_USERNAME: postgres
+          POSTGRES_PASSWORD: admin
           POSTGRES_DB: PostDatabaseTest
         options: >-
           --health-cmd pg_isready
