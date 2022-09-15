@@ -43,7 +43,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 String fooResourceUrl = "http://localhost:8081/auth-service/authentication/users/check-username/" + username;
                 ResponseEntity<Boolean> restTemplateResponse = restTemplate.getForEntity(fooResourceUrl, Boolean.class);
                 if (Boolean.FALSE.equals(restTemplateResponse.getBody())) {
-                    throw new InvalidToken("Username not found on authentication service.");
+                    throw new InvalidToken("Username not found on authentication dislinkt.postservice.service.");
                 }
 
                 List<String> authoritiesNames = (List<String>) claims.get("authorities");
