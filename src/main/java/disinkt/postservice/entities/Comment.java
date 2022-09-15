@@ -27,7 +27,4 @@ public class Comment {
     @Column(name = "date_posted")
     private Long datePosted;
 
-    @ManyToOne
-    private Post post;
-
 }

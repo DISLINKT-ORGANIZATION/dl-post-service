@@ -21,6 +21,4 @@ public class Image {
     @Column(name = "picture", length = 1000000000)
     private byte[] content;
 
-    @ManyToOne
-    private Post post;
 }
