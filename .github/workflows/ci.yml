@@ -11,8 +11,6 @@ on:
         required: true
       DOCKER_PASSWORD:
         required: true
-      SONAR_TOKEN:
-        required: true
 
 jobs:
   ci:
@@ -40,5 +38,5 @@ jobs:
 
       # TODO: infrastructure setup for integration testing
 
-      - name: Run Tests
-        run: mvn -B test
+#      - name: Run Tests
+#        run: mvn -B test
