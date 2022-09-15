@@ -23,7 +23,7 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_PASSWORD: admin
+          POSTGRES_PASSWORD: root
           POSTGRES_USERNAME: postgres
           POSTGRES_DB: PostDatabaseTest
         options: >-
