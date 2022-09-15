@@ -12,6 +12,20 @@ on:
 jobs:
   sonar:
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: admin
+          POSTGRES_USERNAME: postgres
+          POSTGRES_DB: PostDatabase
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v3
         with:
@@ -36,3 +50,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          DATABASE_USERNAME: postgres
+          DATABASE_PASSWORD: admin
+          DATABASE_DOMAIN: localhost
+          DATABASE_SHEMA: PostDatabase
+          DATABASE_PORT: 5432
+
