@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,7 +19,7 @@ public class PostDto {
     private long datePosted;
     private int dislikes;
     private int likes;
-    private List<ImageDto> images;
-    private List<CommentDto> comments;
+    private List<ImageDto> images = new ArrayList<>();
+    private List<CommentDto> comments = new ArrayList<>();
 
 }
