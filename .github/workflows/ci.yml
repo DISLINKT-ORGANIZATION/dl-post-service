@@ -42,16 +42,3 @@ jobs:
 
       - name: Run Tests
         run: mvn -B test
-
-      - name: Cache SonarCloud Packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: Analyze With SonarCloud
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=DISLINKT-ORGANIZATION_dl-post-service -Dsonar.organization=dislinkt-organization -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
