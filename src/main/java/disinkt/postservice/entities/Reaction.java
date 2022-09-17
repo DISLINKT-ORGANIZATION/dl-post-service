@@ -24,4 +24,7 @@ public class Reaction {
     @Column(name = "reaction_type")
     private ReactionType reactionType;
 
+    @ManyToOne
+    private Post post;
+
 }

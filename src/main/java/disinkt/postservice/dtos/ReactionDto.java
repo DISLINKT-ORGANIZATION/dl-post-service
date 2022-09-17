@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserIds {
+public class ReactionDto {
 
-    private Collection<Long> ids;
-    private Long loggedInUserId;
+    private Long userId;
+    private int reaction; // 0 like, 1 dislike
+    private boolean removeReaction;
+
 }
