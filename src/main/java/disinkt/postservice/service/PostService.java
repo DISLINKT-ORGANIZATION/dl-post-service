@@ -46,9 +46,9 @@ public class PostService {
         List<Post> posts = repository.findAllByUserIdInOrderByDatePostedDesc(userIds.getIds());
         List<Reaction> usersReactions = this.reactionService.findReactionByUserId(userIds.getLoggedInUserId());
         List<PostDto> dtoPosts = new ArrayList<>();
-        for (Post post: posts) {
+        for (Post post : posts) {
             PostDto dto = mapper.toDto(post);
-            for (Reaction reaction: usersReactions) {
+            for (Reaction reaction : usersReactions) {
                 if (post.getReactions().contains(reaction)) {
                     if (reaction.getReactionType().equals(ReactionType.LIKE)) {
                         dto.setUserLikesPost(true);
@@ -70,7 +70,7 @@ public class PostService {
         post.setText(dto.getText());
         post.setImage(dto.getImage());
         post = this.repository.save(post);
-        for (Long notifyUserId: dto.getUsersToNotify()) {
+        for (Long notifyUserId : dto.getUsersToNotify()) {
             publishNotification(post.getUserId(), notifyUserId, today.getTime(), KafkaNotificationType.NEW_POST);
         }
     }
@@ -84,7 +84,7 @@ public class PostService {
         kafkaTemplate.send("dislinkt-user-notifications", kafkaNotification);
     }
 
-    public void reactToPost(Long postId, ReactionDto reactionDto) {
+    public void reactToPost(Long postId, ReactionDto reactionDto, boolean sendNotification) {
         Post post = this.repository.findOneById(postId);
         entityExistsCheck(post);
         boolean removeReaction = reactionDto.isRemoveReaction();
@@ -118,7 +118,9 @@ public class PostService {
             post.setLikes(post.getLikes() + 1);
             this.repository.save(post);
             Date today = new Date();
-            publishNotification(newReaction.getUserId(), post.getUserId(), today.getTime(), KafkaNotificationType.LIKE);
+            if (sendNotification) {
+                publishNotification(newReaction.getUserId(), post.getUserId(), today.getTime(), KafkaNotificationType.LIKE);
+            }
             return;
 
         }
