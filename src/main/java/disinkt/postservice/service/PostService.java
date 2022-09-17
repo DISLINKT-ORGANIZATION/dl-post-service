@@ -4,15 +4,15 @@ import disinkt.postservice.dtos.CommentDto;
 import disinkt.postservice.dtos.PostDto;
 import disinkt.postservice.dtos.ReactionDto;
 import disinkt.postservice.dtos.UserIds;
-import disinkt.postservice.entities.Comment;
-import disinkt.postservice.entities.Post;
-import disinkt.postservice.entities.Reaction;
-import disinkt.postservice.entities.ReactionType;
+import disinkt.postservice.entities.*;
 import disinkt.postservice.exception.ResourceNotFoundException;
+import disinkt.postservice.kafka.KafkaNotification;
+import disinkt.postservice.kafka.KafkaNotificationType;
 import disinkt.postservice.mappers.CommentDtoMapper;
 import disinkt.postservice.mappers.PostDtoMapper;
 import disinkt.postservice.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,14 +28,18 @@ public class PostService {
     private final ReactionService reactionService;
     private final CommentService commentService;
     private final CommentDtoMapper commentMapper;
+    private final KafkaTemplate<String, KafkaNotification> kafkaTemplate;
 
     @Autowired
-    public PostService(PostRepository repository, PostDtoMapper mapper, ReactionService reactionService, CommentService commentService, CommentDtoMapper commentMapper) {
+    public PostService(PostRepository repository, PostDtoMapper mapper, ReactionService reactionService,
+                       CommentService commentService, CommentDtoMapper commentMapper,
+                       KafkaTemplate<String, KafkaNotification> kafkaTemplate) {
         this.repository = repository;
         this.mapper = mapper;
         this.reactionService = reactionService;
         this.commentService = commentService;
         this.commentMapper = commentMapper;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public List<PostDto> retrievePosts(UserIds userIds) {
@@ -65,7 +69,19 @@ public class PostService {
         post.setUserId(dto.getUserId());
         post.setText(dto.getText());
         post.setImage(dto.getImage());
-        this.repository.save(post);
+        post = this.repository.save(post);
+        for (Long notifyUserId: dto.getUsersToNotify()) {
+            publishNotification(post.getUserId(), notifyUserId, today.getTime(), KafkaNotificationType.NEW_POST);
+        }
+    }
+
+    private void publishNotification(Long senderId, Long recipientId, Long timestamp, KafkaNotificationType type) {
+        PostNotification postNotification = new PostNotification();
+        postNotification.setSenderId(senderId);
+        postNotification.setRecipientId(recipientId);
+        postNotification.setTimestamp(timestamp);
+        KafkaNotification kafkaNotification = new KafkaNotification(postNotification, type);
+        kafkaTemplate.send("dislinkt-user-notifications", kafkaNotification);
     }
 
     public void reactToPost(Long postId, ReactionDto reactionDto) {
@@ -101,6 +117,8 @@ public class PostService {
             post.getReactions().add(newReaction);
             post.setLikes(post.getLikes() + 1);
             this.repository.save(post);
+            Date today = new Date();
+            publishNotification(newReaction.getUserId(), post.getUserId(), today.getTime(), KafkaNotificationType.LIKE);
             return;
 
         }
@@ -146,6 +164,7 @@ public class PostService {
         comment = commentService.saveComment(comment);
         post.getComments().add(comment);
         this.repository.save(post);
+        publishNotification(comment.getUserId(), post.getUserId(), today.getTime(), KafkaNotificationType.COMMENT);
         return commentMapper.toDto(comment);
     }
 }

@@ -21,6 +21,7 @@ public class PostDto {
     private List<CommentDto> comments = new ArrayList<>();
     private boolean userLikesPost;
     private boolean userDislikesPost;
+    private List<Long> usersToNotify;
 
     public PostDto(Long id, Long userId, String text, Long datePosted,
                    int dislikes, int likes, byte[] image, List<CommentDto> comments) {
