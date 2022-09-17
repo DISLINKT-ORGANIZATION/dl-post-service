@@ -59,6 +59,7 @@ jobs:
           DATABASE_DOMAIN: localhost
           DATABASE_SHEMA: PostDatabaseTest
           DATABASE_PORT: 5432
+          KAFKA_TOPIC: dislinkt-user-notifications
 
       - name: Cache SonarCloud Packages
         uses: actions/cache@v1
