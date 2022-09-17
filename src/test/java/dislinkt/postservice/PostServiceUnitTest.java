@@ -3,7 +3,10 @@ package dislinkt.postservice;
 import disinkt.postservice.PostServiceApplication;
 import disinkt.postservice.dtos.PostDto;
 import disinkt.postservice.dtos.UserIds;
-import disinkt.postservice.entities.*;
+import disinkt.postservice.entities.Comment;
+import disinkt.postservice.entities.Post;
+import disinkt.postservice.entities.Reaction;
+import disinkt.postservice.entities.ReactionType;
 import disinkt.postservice.repositories.PostRepository;
 import disinkt.postservice.service.PostService;
 import org.junit.jupiter.api.Test;
@@ -16,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest(classes = PostServiceApplication.class)
@@ -39,10 +41,10 @@ public class PostServiceUnitTest {
         Comment comment2 = new Comment(2L, 5L, "I totally love this", 1663241370613L);
         List<Comment> comments = Arrays.asList(comment1, comment2);
         Post post = new Post(
-            1L, 4L,
-            "It would be great if we could save every stray cat and dog on this planet. And also in the upside down",
-            1663239692000L, 2, 0,
-            null, comments, reactions
+                1L, 4L,
+                "It would be great if we could save every stray cat and dog on this planet. And also in the upside down",
+                1663239692000L, 2, 0,
+                null, comments, reactions
         );
         List<Post> posts = List.of(post);
         given(postRepository.findAllByUserIdInOrderByDatePostedDesc(ids)).willReturn(posts);
