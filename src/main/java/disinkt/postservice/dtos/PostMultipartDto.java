@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserIds {
+@NoArgsConstructor
+public class PostMultipartDto {
 
-    private Collection<Long> ids;
-    private Long loggedInUserId;
+    private Long userId;
+    private String text;
 }

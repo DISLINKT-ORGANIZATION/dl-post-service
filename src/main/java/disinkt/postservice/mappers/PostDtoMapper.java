@@ -2,22 +2,24 @@ package disinkt.postservice.mappers;
 
 import disinkt.postservice.dtos.PostDto;
 import disinkt.postservice.entities.Post;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class PostDtoMapper {
 
     private final CommentDtoMapper commentMapper;
-    private final ImageDtoMapper imageMapper;
 
     @Autowired
-    public PostDtoMapper(CommentDtoMapper commentMapper, ImageDtoMapper imageMapper) {
+    public PostDtoMapper(CommentDtoMapper commentMapper) {
         this.commentMapper = commentMapper;
-        this.imageMapper = imageMapper;
     }
 
     public PostDto toDto(Post post) {
@@ -28,7 +30,7 @@ public class PostDtoMapper {
                 post.getDatePosted(),
                 post.getDislikes(),
                 post.getLikes(),
-                this.imageMapper.toCollectionDto(post.getImages()),
+                post.getImage(),
                 this.commentMapper.toCollectionDto(post.getComments())
         );
     }

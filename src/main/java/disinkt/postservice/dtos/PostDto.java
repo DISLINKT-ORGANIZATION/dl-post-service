@@ -1,9 +1,7 @@
 package disinkt.postservice.dtos;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +17,21 @@ public class PostDto {
     private long datePosted;
     private int dislikes;
     private int likes;
-    private List<ImageDto> images = new ArrayList<>();
+    private byte[] image;
     private List<CommentDto> comments = new ArrayList<>();
+    private boolean userLikesPost;
+    private boolean userDislikesPost;
+
+    public PostDto(Long id, Long userId, String text, Long datePosted,
+                   int dislikes, int likes, byte[] image, List<CommentDto> comments) {
+        this.id = id;
+        this.userId = userId;
+        this.text = text;
+        this.datePosted = datePosted;
+        this.dislikes = dislikes;
+        this.likes = likes;
+        this.image = image;
+        this.comments = comments;
+    }
 
 }
