@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "posts")
-public class Post {
+public class    Post {
 
     @Id
     @Column(name = "id")
@@ -37,9 +37,8 @@ public class Post {
     @Column(name = "dislikes")
     private int dislikes;
 
-    @OneToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Image> images = new ArrayList<>();
+    @Column(name = "image", length = 1000000000)
+    private byte[] image;
 
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
