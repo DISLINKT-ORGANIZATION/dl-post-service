@@ -22,7 +22,7 @@ class PostServiceIntegrationTest {
     @Test
     void retrievePost_PostsExist() {
         List<Long> ids = Arrays.asList(4L, 5L, 9L);
-        UserIds userIds = new UserIds(ids);
+        UserIds userIds = new UserIds(ids, 4L);
         List<PostDto> posts = postService.retrievePosts(userIds);
         assertEquals(1, posts.size());
     }
@@ -30,7 +30,7 @@ class PostServiceIntegrationTest {
     @Test
     void retrievePost_PostsNotExist() {
         List<Long> ids = Arrays.asList(11L, 12L, 13L);
-        UserIds userIds = new UserIds(ids);
+        UserIds userIds = new UserIds(ids, 4L);
         List<PostDto> posts = postService.retrievePosts(userIds);
         assertEquals(0,posts.size());
     }

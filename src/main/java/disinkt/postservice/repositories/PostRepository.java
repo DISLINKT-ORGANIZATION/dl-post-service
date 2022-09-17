@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    List<Post> findAllByUserIdIn(Collection<Long> userIds);
+    List<Post> findAllByUserIdInOrderByDatePostedDesc(Collection<Long> userIds);
+    Post findOneById(Long postId);
 }
