@@ -46,7 +46,7 @@ public class PostController {
     @PostMapping("/{postId}/reaction")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<Object> reactToPost(@PathVariable Long postId, @RequestBody ReactionDto reactionDto) {
-        postService.reactToPost(postId, reactionDto);
+        postService.reactToPost(postId, reactionDto, true);
         return ResponseEntity.ok().build();
     }
 
