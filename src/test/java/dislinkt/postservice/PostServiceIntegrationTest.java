@@ -41,28 +41,6 @@ class PostServiceIntegrationTest {
         assertEquals(0,posts.size());
     }
 
-
-    @Test
-    void reactToPost_LikePost() {
-        Long postId = 1L;
-        ReactionDto dto = new ReactionDto();
-        dto.setReaction(0);
-        dto.setRemoveReaction(false);
-        dto.setUserId(4L); // max
-        postService.reactToPost(postId, dto);
-
-        Post post = postService.getById(postId);
-        assertEquals(3, post.getLikes());
-
-        List<Reaction> newReactions = post.getReactions().stream().filter(el -> el.getUserId() != 4L).collect(Collectors.toList());
-        post.setReactions(newReactions);
-        postService.save(post);
-        dto.setRemoveReaction(true);
-        postService.reactToPost(postId, dto);
-        post = postService.getById(postId);
-        assertEquals(2, post.getLikes());
-    }
-
     @Test
     void reactToPost_DislikePost() {
         Long postId = 1L;
