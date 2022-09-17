@@ -127,6 +127,14 @@ public class PostService {
         }
     }
 
+    public Post save(Post post) {
+        return this.repository.save(post);
+    }
+
+    public Post getById(Long id) {
+        return this.repository.findOneById(id);
+    }
+
     public CommentDto commentToPost(Long postId, CommentDto commentDto) {
         Post post = this.repository.findOneById(postId);
         entityExistsCheck(post);
