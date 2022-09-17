@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = PostServiceApplication.class)
 class PostServiceIntegrationTest {
@@ -82,6 +82,20 @@ class PostServiceIntegrationTest {
         postService.reactToPost(postId, dto);
         post = postService.getById(postId);
         assertEquals(0, post.getDislikes());
+    }
+
+
+    @Test
+    void getPostById_PostExist() {
+        Post post = this.postService.getById(1L);
+        assertNotNull(post);
+        assertEquals(1L, post.getId());
+    }
+
+    @Test
+    void getPostById_PostNotExist() {
+        Post post = this.postService.getById(5L);
+        assertNull(post);
     }
 
 
