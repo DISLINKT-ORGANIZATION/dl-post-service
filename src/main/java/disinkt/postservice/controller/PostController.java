@@ -29,7 +29,6 @@ public class PostController {
     }
 
     @PostMapping("/all")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<PostDto>> retrievePosts(@RequestBody UserIds userIds) {
         List<PostDto> dto = this.postService.retrievePosts(userIds);
         return ResponseEntity.ok(dto);
