@@ -17,7 +17,7 @@
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <sonar.organization>dislinkt-organization</sonar.organization>
-        <sonar.coverage.exclusions>**/dtos/**,**/entities/**</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>**/dtos/**,**/entities/**,**/kafka/**,**/security/**,**/mappers/**,**/config/**</sonar.coverage.exclusions>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
@@ -144,6 +144,10 @@
                             <excludes>
                                 <exclude>**/dtos/*</exclude>
                                 <exclude>**/entities/*</exclude>
+                                <exclude>**/kafka/*</exclude>
+                                <exclude>**/security/*</exclude>
+                                <exclude>**/mappers/*</exclude>
+                                <exclude>**/config/*</exclude>
                             </excludes>
                         </configuration>
                         <executions>
